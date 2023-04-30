@@ -8,8 +8,16 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    networks:
+      - backend
+    container_name: facilite-frontend
     volumes:
       - .:/node_app/app
     command: /bin/sh -c "chmod +x entrypoint.sh && /node_app/app/entrypoint.sh"
     env_file:
       - .env
+
+networks:
+  backend:
+    name: facilite-backend_network
+    external: true
