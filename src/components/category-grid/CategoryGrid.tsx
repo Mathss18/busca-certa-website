@@ -1,70 +1,45 @@
 "use client";
 
 import React from "react";
+import { useHomeContext } from "@/modules/home/Home.context";
+import { useSearchContext } from "@/modules/search/Search.context";
 
-interface CategoryCardProps {
-  imageUrl: string;
-  alt: string;
-  title: string;
-  href: string;
-}
+type CategoryCardProps = {
+  image: string;
+  name: string;
+  click: () => void;
+};
 
-function CategoryCard({ imageUrl, alt, title, href }: CategoryCardProps) {
+function CategoryCard({ image, name, click }: CategoryCardProps) {
   return (
-    <div className="relative rounded-sm overflow-hidden group">
-      <img src={imageUrl} alt={alt} className="w-full" />
-      <a
-        href={href}
-        className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center text-xl text-white font-roboto font-medium group-hover:bg-opacity-60 transition"
-      >
-        {title}
+    <div
+      className="relative rounded-md overflow-hidden group h-36"
+      onClick={click}
+    >
+      <img src={image} alt={name} className="w-full" />
+      <a className="absolute cursor-pointer inset-0 bg-black bg-opacity-50 flex items-center justify-center text-3xl text-white group-hover:bg-opacity-70 transition">
+        {name}
       </a>
     </div>
   );
 }
 
 function CategoryGrid() {
-  const categories = [
-    {
-      imageUrl: "assets/images/category/category-1.jpg",
-      alt: "category 1",
-      title: "Bedroom",
-    },
-    {
-      imageUrl: "assets/images/category/category-2.jpg",
-      alt: "category 2",
-      title: "Mattress",
-    },
-    {
-      imageUrl: "assets/images/category/category-3.jpg",
-      alt: "category 3",
-      title: "Outdoor",
-    },
-    {
-      imageUrl: "assets/images/category/category-4.jpg",
-      alt: "category 4",
-      title: "Sofa",
-    },
-    {
-      imageUrl: "assets/images/category/category-5.jpg",
-      alt: "category 5",
-      title: "Living Room",
-    },
-    {
-      imageUrl: "assets/images/category/category-6.jpg",
-      alt: "category 6",
-      title: "Kitchen",
-    },
-  ];
+  const { categories } = useHomeContext();
+  const { search } = useSearchContext();
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="mx-auto px-4 pb-16">
       <h2 className="text-2xl font-medium text-gray-800 uppercase mb-6">
         Escolha uma categoria
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         {categories.map((category) => (
-          <CategoryCard key={category.title} {...category} href="#" />
+          <CategoryCard
+            key={category.name}
+            {...category}
+            click={() => search(category.name)}
+          />
         ))}
       </div>
     </div>

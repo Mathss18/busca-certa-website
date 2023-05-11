@@ -25,26 +25,26 @@ function Feature() {
   const features = [
     {
       imageUrl: "assets/images/icons/delivery-van.svg",
-      alt: "Delivery",
-      title: "Free Shipping",
-      description: "Order over $200",
+      alt: "Frete Grátis",
+      title: "Frete Grátis",
+      description: "em todo território nacional",
     },
     {
       imageUrl: "assets/images/icons/money-back.svg",
-      alt: "Money Returns",
-      title: "Money Returns",
-      description: "30 days money returns",
+      alt: "Obtenha Descontos",
+      title: "Obtenha Descontos",
+      description: "até 50% de desconto",
     },
     {
       imageUrl: "assets/images/icons/service-hours.svg",
-      alt: "Support",
-      title: "24/7 Support",
-      description: "Customer support",
+      alt: "Suporte",
+      title: "Suporte 24 horas",
+      description: "via whatsapp ou email",
     },
   ];
 
   return (
-    <div className="container mx-auto px-4 py-16">
+    <div className="mx-auto px-4 py-16">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto justify-center">
         {features.map((feature) => (
           <FeatureCard key={feature.title} {...feature} />

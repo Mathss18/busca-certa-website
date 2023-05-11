@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 function Copyright() {
   return (
     <div className="bg-gray-800 py-4">
@@ -6,7 +8,13 @@ function Copyright() {
           &copy; Facilite - Todos direitos reservados.
         </p>
         <div>
-          <img src="assets/images/methods.png" alt="methods" className="h-5" />
+          <Image
+            src="/assets/images/methods.png"
+            alt="methods"
+            className="h-5"
+            width={250}
+            height={56}
+          />
         </div>
       </div>
     </div>

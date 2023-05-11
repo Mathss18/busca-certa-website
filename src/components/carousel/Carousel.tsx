@@ -39,11 +39,11 @@ function Carousel({
   }, [activeSlide, autoPlay, interval]);
 
   return (
-    <div className="w-full relative bg-slate-600">
+    <div className="w-full h-40 bg-slate-600">
       {images.map((image, index) => (
         <div
           key={index}
-          className={`carousel-item w-full transition-opacity duration-500 ease-in-out absolute top-0 left-0 ${
+          className={`carousel-item w-full transition-opacity duration-500 ease-in-out top-0 left-0 ${
             activeSlide === index
               ? "opacity-100 visible"
               : "opacity-0 invisible"

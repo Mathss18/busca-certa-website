@@ -1,9 +1,17 @@
+import Image from "next/image";
+
 function Footer() {
   return (
     <footer className="bg-white pt-16 pb-12 border-t border-gray-100">
       <div className="container grid grid-cols-3">
         <div className="col-span-1 space-y-8">
-          <img src="assets/images/logo.svg" alt="logo" className="w-30" />
+          <Image
+            src="/assets/images/logo.svg"
+            alt="logo"
+            className="w-30"
+            width={168}
+            height={35}
+          />
           <div className="mr-2">
             <p className="text-gray-500">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia,

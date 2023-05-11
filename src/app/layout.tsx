@@ -1,7 +1,7 @@
 import Copyright from "../components/copyright/Copyright";
-import Footer from "../components/footer/Footer";
+// import Footer from "../components/footer/Footer";
 import "../global.css";
-import Providers from "../Providers";
+import GlobalProviders from "../GlobalProviders";
 
 export default function HomeLayout({
   children,
@@ -10,15 +10,11 @@ export default function HomeLayout({
 }) {
   return (
     <html>
-      <head>
-        <link rel="stylesheet" href="assets/css/main.css" />
-      </head>
+      <head></head>
       <body>
-        <Providers>
-          {children}
-          {/* <Footer /> */}
-          <Copyright />
-        </Providers>
+        <GlobalProviders>{children}</GlobalProviders>
+        {/* <Footer /> */}
+        <Copyright />
       </body>
     </html>
   );

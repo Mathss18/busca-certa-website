@@ -1,26 +1,34 @@
+"use client";
+
+import { useSearchContext } from "@/modules/search/Search.context";
+import { capitalizeFirstLetter } from "@/helpers/string.helper";
+import OrderByFilter from "./components/OrderByFilter";
+import RatingFilter from "./components/RatingFilter";
+import CategoriesFilter from "./components/CategoriesFilter";
+
 export default function Filters() {
+  const { searchTerm, productsCount, relevantCategories, search } =
+    useSearchContext();
+
   return (
-    <div className="bg-yellow-200 h-screen w-1/5 flex flex-col items-center  gap-4">
-      <h1 className="text-2xl font-bold">Tênis</h1>
-      <h1 className="text-sm font-bold">26.257 resultados</h1>
-      <div className="w-4/5">
-        <h1 className="text-sm font-bold">Categorias</h1>
-        <div>
-          <h1 className="text-sm">Esportes / Corrida / Tênis</h1>
-        </div>
-      </div>
-      <div className="w-4/5">
-        <h1 className="text-sm font-bold">Produtos </h1>
-        <div>
-          <h1 className="text-sm">Sapato (12)</h1>
-        </div>
-        <div>
-          <h1 className="text-sm">Corda (5)</h1>
-        </div>
-        <div>
-          <h1 className="text-sm">Meia (1)</h1>
-        </div>
-      </div>
+    <div className="bg-gray-200 min-h-screen min-w-[200px] w-1/5 flex flex-col items-center gap-4 py-8 px-4">
+      <h1 className="text-3xl font-bold mb-2">
+        {capitalizeFirstLetter(searchTerm)}
+      </h1>
+      <h2 className="text-lg font-semibold mb-8">
+        {productsCount} {productsCount === 1 ? "resultado" : "resultados"}
+      </h2>
+      <CategoriesFilter categories={relevantCategories} search={search} />
+      <OrderByFilter />
+      <RatingFilter />
+      <section>
+        <button
+          className="btn btn-outline"
+          // onClick={() => handleClearFilters()}
+        >
+          Limpar filtros
+        </button>
+      </section>
     </div>
   );
 }
