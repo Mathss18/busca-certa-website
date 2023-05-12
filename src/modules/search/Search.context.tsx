@@ -27,8 +27,11 @@ type SearchContextType = {
   isLoading: boolean;
   isModalOpen: boolean;
   setIsModalOpen: any;
-  selectedProduct?: any;
-  setSelectedProduct?: any;
+  selectedProduct: any;
+  setSelectedProduct: any;
+  selectedVariations: SelectedVariationsType[];
+  setSelectedVariations: any;
+  toggleSelectedVariation: (variationId: number, optionId: number) => void;
 };
 
 export type SearchedProduct = {
@@ -40,6 +43,11 @@ export type SearchedProduct = {
     companyName: string;
     logo: string;
   };
+};
+
+export type SelectedVariationsType = {
+  variationId: number;
+  optionId: number;
 };
 
 const SearchContext = createContext({
@@ -54,6 +62,9 @@ const SearchContext = createContext({
   setSelectedProduct: () => {},
   isModalOpen: false,
   setIsModalOpen: () => {},
+  selectedVariations: [],
+  setSelectedVariations: () => {},
+  toggleSelectedVariation: () => {},
 } as SearchContextType);
 
 function SearchContextProvider({ children }: { children: React.ReactNode }) {
@@ -62,6 +73,9 @@ function SearchContextProvider({ children }: { children: React.ReactNode }) {
     useState<InfiniteData<AxiosResponse>>();
   const [productsCount, setProductsCount] = useState<number>(0);
   const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedVariations, setSelectedVariations] = useState<
+    SelectedVariationsType[]
+  >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useSearchParams();
   const router = useRouter();
@@ -95,6 +109,38 @@ function SearchContextProvider({ children }: { children: React.ReactNode }) {
       },
     }
   );
+
+  function toggleSelectedVariation(variationId: number, optionId: number) {
+    setSelectedVariations((prevVariations: SelectedVariationsType[]) => {
+      // Check if the variation-option pair already exists in the array
+      const exists = prevVariations.some(
+        (v) => v.variationId === variationId && v.optionId === optionId
+      );
+
+      if (exists) {
+        // If the variation-option pair already exists, filter it out
+        return prevVariations.filter(
+          (v) => !(v.variationId === variationId && v.optionId === optionId)
+        );
+      }
+      // If the variation-option pair doesn't exist, add it
+      return [
+        ...prevVariations,
+        {
+          variationId,
+          optionId,
+        },
+      ];
+    });
+  }
+
+  useEffect(() => {
+    setSelectedVariations([]);
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    console.log(selectedVariations);
+  }, [selectedVariations]);
 
   useEffect(() => {
     if (!data) return;
@@ -132,6 +178,9 @@ function SearchContextProvider({ children }: { children: React.ReactNode }) {
         setSelectedProduct,
         isModalOpen,
         setIsModalOpen,
+        selectedVariations,
+        setSelectedVariations,
+        toggleSelectedVariation,
       }}
     >
       {children}

@@ -4,8 +4,35 @@ import { useState } from "react";
 import { FaRegTimesCircle } from "react-icons/fa";
 import { useSearchContext } from "@/modules/search/Search.context";
 
+type ProductVariation = {
+  id: number;
+  active: boolean;
+  variation: {
+    id: number;
+    name: string;
+    active: boolean;
+  };
+  productVariationOptions: ProductVariationOptions[];
+};
+
+type ProductVariationOptions = {
+  id: number;
+  active: boolean;
+  variationOption: {
+    id: number;
+    name: string;
+    active: boolean;
+  };
+};
+
 function Modal() {
-  const { isModalOpen, setIsModalOpen, selectedProduct } = useSearchContext();
+  const {
+    isModalOpen,
+    setIsModalOpen,
+    selectedProduct,
+    selectedVariations,
+    toggleSelectedVariation,
+  } = useSearchContext();
   const [count, setCount] = useState(1);
   function increment() {
     setCount((prevCount) => prevCount + 1);
@@ -77,21 +104,38 @@ function Modal() {
               <>
                 <div className="mt-2">
                   {selectedProduct.productsVariations.map(
-                    (productVariation: any, i: number) => (
+                    (productVariation: ProductVariation, i: number) => (
                       <div key={i} className="my-2">
                         <h3 className="text-lg font-bold text-gray-900">
                           {productVariation.variation.name}:
                         </h3>
                         <div className="flex flex-wrap gap-2 mt-1">
                           {productVariation.productVariationOptions.map(
-                            (option: any, j: number) => (
-                              <button
-                                key={j}
-                                className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                              >
-                                {option.variationOption.name}
-                              </button>
-                            )
+                            (option: ProductVariationOptions, j: number) => {
+                              selectedVariations.forEach((item) => {
+                                if (
+                                  item.variationId ===
+                                    productVariation.variation.id &&
+                                  item.optionId === option.variationOption.id
+                                ) {
+                                  console.log("item", item);
+                                }
+                              });
+                              return (
+                                <button
+                                  key={j}
+                                  className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                  onClick={() => {
+                                    toggleSelectedVariation(
+                                      productVariation.variation.id,
+                                      option.variationOption.id
+                                    );
+                                  }}
+                                >
+                                  {option.variationOption.name}
+                                </button>
+                              );
+                            }
                           )}
                         </div>
                       </div>
@@ -103,7 +147,7 @@ function Modal() {
           </div>
           <div className="w-full flex-grow">
             <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
-              {`${selectedProduct.name} - ${selectedProduct.description}`}
+              {`${selectedProduct.name} - ${selectedProduct.subtitle}`}
             </h3>
             <form className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="form-control w-full">
