@@ -11,12 +11,14 @@ type RelevantCategory = {
 export default function CategoriesFilter({
   categories,
   search,
+  ...rest
 }: {
   categories: RelevantCategory[];
   search: (term: string) => void;
+  [x: string]: any;
 }) {
   return (
-    <section className="w-full mb-8">
+    <section className="w-full mb-8" {...rest}>
       <h2 className="text-lg font-semibold mb-4">Categorias relacionadas</h2>
       <ul>
         {categories?.map((item: RelevantCategory) => (

@@ -1,6 +1,6 @@
-export default function OrderByFilter() {
+export default function OrderByFilter({ ...rest }: { [x: string]: any }) {
   return (
-    <section className="w-full mb-8">
+    <section className="w-full mb-8" {...rest}>
       <h2 className="text-lg font-semibold mb-4">Ordenar por</h2>
       <select
         className="select select-bordered w-full max-w-xs"

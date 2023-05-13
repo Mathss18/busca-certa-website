@@ -10,13 +10,7 @@ const StarRating: React.FC<Props> = ({ rating }) => {
     <span className="flex justify-between w-auto">
       {Array(totalStars)
         .fill(0)
-        .map((_, i) =>
-          i < rating ? (
-            <FaStar color="yellow" className="mx-1" key={i} />
-          ) : (
-            <FaRegStar className="mx-1" key={i} />
-          )
-        )}
+        .map((_, i) => (i < rating ? <FaStar color="yellow" className="mx-1" key={i} /> : <FaRegStar className="mx-1" key={i} />))}
     </span>
   );
 };

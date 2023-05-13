@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import * as Icons from "react-icons/fa";
 import productService from "@/services/product/product.service";
 import StarRating from "@/components/star-rating/StarRating";
+import { useEstimateModalContext } from "@/modules/estimate-modal/EstimateModal.context";
 
 type ProductVariation = {
   id: number;
@@ -25,9 +26,8 @@ type ProductVariationOptions = {
 
 export default function ProductPage() {
   const { id } = useParams();
-  const { data, error, isLoading } = useQuery(["product", id], () =>
-    productService.getOne(id)
-  );
+  const { data, error, isLoading } = useQuery(["product", id], () => productService.getOne(id));
+  const { setIsModalOpen, setSelectedProduct } = useEstimateModalContext();
 
   if (error) return <div>Error loading product</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -47,50 +47,34 @@ export default function ProductPage() {
           />
           {product.productsVariations.length > 0 && (
             <>
-              <h2 className="text-xl font-bold text-gray-900 mt-5">
-                Variações do produto
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 mt-5">Variações do produto</h2>
               <div className="mt-2">
-                {product.productsVariations.map(
-                  (productVariation: ProductVariation, i: number) => (
-                    <div key={i} className="my-2">
-                      <h3 className="text-lg font-bold text-gray-900">
-                        {productVariation.variation.name}:
-                      </h3>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        {productVariation.productVariationOptions.map(
-                          (option: ProductVariationOptions, j: number) => (
-                            <button
-                              key={j}
-                              className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            >
-                              {option.variationOption.name}
-                            </button>
-                          )
-                        )}
-                      </div>
+                {product.productsVariations.map((productVariation: ProductVariation, i: number) => (
+                  <div key={i} className="my-2">
+                    <h3 className="text-lg font-bold text-gray-900">{productVariation.variation.name}:</h3>
+                    <div className="flex flex-wrap gap-2 mt-1">
+                      {productVariation.productVariationOptions.map((option: ProductVariationOptions, j: number) => (
+                        <button
+                          key={j}
+                          className="px-3 py-1 border border-gray-300 rounded-md text-sm text-gray-700 bg-gray-200 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                          {option.variationOption.name}
+                        </button>
+                      ))}
                     </div>
-                  )
-                )}
+                  </div>
+                ))}
               </div>
             </>
           )}
           {product.productFeatures.length > 0 && (
             <>
-              <h2 className="text-xl font-bold text-gray-900 mt-5">
-                Mais características
-              </h2>
+              <h2 className="text-xl font-bold text-gray-900 mt-5">Mais características</h2>
               <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4 text-base text-gray-500 mt-2 text-center">
                 {product.productFeatures.map((feature: any) => {
-                  const Icon =
-                    feature.features.icon in Icons
-                      ? Icons[feature.features.icon]
-                      : Icons.FaQuestion; // Default icon
+                  const Icon = feature.features.icon in Icons ? Icons[feature.features.icon] : Icons.FaQuestion; // Default icon
                   return (
-                    <div
-                      className="flex flex-col items-center"
-                      key={feature.features.id}
-                    >
+                    <div className="flex flex-col items-center" key={feature.features.id}>
                       <Icon className="text-2xl mb-2" />
                       <span>{feature.features.name}</span>
                     </div>
@@ -105,27 +89,15 @@ export default function ProductPage() {
           <div className="flex justify-start items-center gap-1">
             <StarRating rating={product.rating} />
           </div>
-          <p className="text-gray-500 my-2">
-            Baseado nas avaliçãoes de clientes
-          </p>
-          <h2 className="text-xl font-bold text-gray-900">
-            Sobre esse produto
-          </h2>
+          <p className="text-gray-500 my-2">Baseado nas avaliçãoes de clientes</p>
+          <h2 className="text-xl font-bold text-gray-900">Sobre esse produto</h2>
           <p className="text-base text-gray-500 mt-2">{product.subtitle}</p>
-          <p className="text-base text-gray-500 mt-2">
-            Categoria: {product.productCategory.name}
-          </p>
+          <p className="text-base text-gray-500 mt-2">Categoria: {product.productCategory?.name}</p>
           <h2 className="text-xl font-bold text-gray-900 mt-5">Fornecedor</h2>
           <div className="flex items-center gap-4 mt-2">
-            <img
-              src={product.supplier.logo}
-              alt="Supplier logo"
-              className="w-16 h-16 object-cover rounded-md"
-            />
+            <img src={product.supplier.logo} alt="Supplier logo" className="w-16 h-16 object-cover rounded-md" />
             <div>
-              <p className="text-base text-gray-500">
-                {product.supplier.companyName}
-              </p>
+              <p className="text-base text-gray-500">{product.supplier.companyName}</p>
               <p className="text-base text-gray-500">
                 {product.supplier.street}, {product.supplier.number}
               </p>
@@ -134,12 +106,16 @@ export default function ProductPage() {
               </p>
             </div>
           </div>
-          <div
-            className="mt-4"
-            dangerouslySetInnerHTML={{ __html: product.description }}
-          />
+          <div className="mt-4" dangerouslySetInnerHTML={{ __html: product.description }} />
           <div className="mt-6">
-            <button className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsModalOpen(true);
+                setSelectedProduct(product);
+              }}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
               Solicitar Orçamento Grátis
             </button>
           </div>

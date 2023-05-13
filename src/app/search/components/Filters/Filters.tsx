@@ -11,24 +11,30 @@ export default function Filters() {
     useSearchContext();
 
   return (
-    <div className="bg-gray-200 min-h-screen min-w-[200px] w-1/5 flex flex-col items-center gap-4 py-8 px-4">
-      <h1 className="text-3xl font-bold mb-2">
-        {capitalizeFirstLetter(searchTerm)}
-      </h1>
-      <h2 className="text-lg font-semibold mb-8">
-        {productsCount} {productsCount === 1 ? "resultado" : "resultados"}
-      </h2>
-      <CategoriesFilter categories={relevantCategories} search={search} />
-      <OrderByFilter />
-      <RatingFilter />
-      <section>
+    <div className="flex flex-col w-1/6 min-w-[220px] p-6 bg-white shadow-lg space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          {capitalizeFirstLetter(searchTerm)}
+        </h1>
+        <h2 className="text-lg font-semibold text-gray-600">
+          {productsCount} {productsCount === 1 ? "resultado" : "resultados"}
+        </h2>
+      </div>
+      <CategoriesFilter
+        categories={relevantCategories}
+        search={search}
+        className="py-4 border-b-2 border-gray-200"
+      />
+      <OrderByFilter className="py-4 border-b-2 border-gray-200" />
+      <RatingFilter className="py-4 border-b-2 border-gray-200" />
+      <div>
         <button
-          className="btn btn-outline"
+          className="w-full py-2 text-sm font-semibold text-center text-white transition-colors duration-200 transform rounded-md bg-gray-900 hover:bg-gray-700"
           // onClick={() => handleClearFilters()}
         >
           Limpar filtros
         </button>
-      </section>
+      </div>
     </div>
   );
 }

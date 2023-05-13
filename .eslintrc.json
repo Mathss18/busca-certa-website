@@ -32,6 +32,11 @@
         "props": false
       }
     ],
-    "prettier/prettier": "error"
+    "prettier/prettier": [
+      "error",
+      {
+        "printWidth": 140
+      }
+    ]
   }
 }

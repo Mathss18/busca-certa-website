@@ -1,6 +1,6 @@
-export default function RatingFilter() {
+export default function RatingFilter({ ...rest }: { [x: string]: any }) {
   return (
-    <section className="w-full mb-8">
+    <section className="w-full mb-8" {...rest}>
       <h2 className="text-lg font-semibold mb-4">Avaliação dos clientes</h2>
       <div>
         {[5, 4, 3, 2, 1].map((rating) => (

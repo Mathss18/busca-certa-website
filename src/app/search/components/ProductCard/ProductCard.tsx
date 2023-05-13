@@ -2,11 +2,12 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { useSearchContext } from "@/modules/search/Search.context";
+import { useEstimateModalContext } from "@/modules/estimate-modal/EstimateModal.context";
+import { SearchedProduct } from "@/modules/search/types";
 
-function ProductCard({ product, index }: any) {
+function ProductCard({ product, index }: { product: SearchedProduct; index: number }) {
   const router = useRouter();
-  const { setSelectedProduct, setIsModalOpen } = useSearchContext();
+  const { setSelectedProduct, setIsModalOpen } = useEstimateModalContext();
   return (
     <motion.div
       className="flex flex-col overflow-hidden rounded-xl shadow-lg transform transition-all duration-300 ease-in-out group bg-white h-full"
@@ -14,18 +15,18 @@ function ProductCard({ product, index }: any) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 * index }}
       whileHover={{ scale: 1.05 }}
-      onClick={() => {
-        router.push(`/products/${product.id}`);
-      }}
     >
       <div className="relative h-60 overflow-hidden rounded-t-xl cursor-pointer">
         <motion.img
           className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
           src={product.image}
           alt={product.name}
+          onClick={() => {
+            router.push(`/products/${product.id}`);
+          }}
         />
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-transparent group-hover:from-transparent group-hover:to-black" />
-        <motion.p className="absolute bottom-0 left-0 text-black p-4 font-semibold text-lg group-hover:text-yellow-300 transition-all duration-300">
+        <motion.p className="absolute bottom-0 left-0 text-black p-2 mb-1 font-semibold text-lg transition-all duration-300 bg-gray-200 bg-opacity-75">
           {product.name}
         </motion.p>
       </div>
