@@ -45,7 +45,7 @@ export default function Search() {
     }
   }, [params]);
 
-  if (isLoading) {
+  if (isLoading || !highlightedProduct) {
     return <SearchSkeleton />;
   }
   return (

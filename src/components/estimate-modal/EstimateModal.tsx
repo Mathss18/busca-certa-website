@@ -14,9 +14,7 @@ function EstimateModal() {
     submitEstimate,
     form,
     count,
-    increment,
-    decrement,
-    changeCount,
+    setCount,
   } = useEstimateModalContext();
 
   function ModalHeader() {
@@ -55,7 +53,7 @@ function EstimateModal() {
                   <div className="flex flex-col w-64 h-64 mr-4 ">
                     <img src={selectedProduct?.image} alt="product image" className="w-64 h-64 rounded-lg" />{" "}
                     <div className="flex mt-2">
-                      <button type="button" className="btn rounded-r-none" onClick={decrement}>
+                      <button type="button" className="btn rounded-r-none" onClick={() => setCount(count - 1)}>
                         -
                       </button>
                       <div className="form-control w-full">
@@ -65,13 +63,13 @@ function EstimateModal() {
                           placeholder="Quantidade"
                           className="input input-bordered w-full rounded-r-none rounded-l-none disabled"
                           step={1}
-                          onChange={() => changeCount}
+                          onChange={(e) => setCount(e.target.value as unknown as number)}
                           onBlur={() => {
-                            if (count <= 0) changeCount(1);
+                            if (count <= 0) setCount(1);
                           }}
                         />
                       </div>
-                      <button type="button" className="btn rounded-l-none" onClick={increment}>
+                      <button type="button" className="btn rounded-l-none" onClick={() => setCount(count + 1)}>
                         +
                       </button>
                     </div>
@@ -88,7 +86,10 @@ function EstimateModal() {
                                 {productVariation.productVariationOptions.map((option: ProductVariationOption) => {
                                   let exists = false;
                                   selectedVariations.forEach((item) => {
-                                    if (item.variationId === productVariation.variation.id && item.optionId === option.variationOption.id) {
+                                    if (
+                                      item.variationId === productVariation.variation.id &&
+                                      item.variationOptionId === option.variationOption.id
+                                    ) {
                                       exists = true;
                                     }
                                   });
@@ -209,7 +210,7 @@ function EstimateModal() {
                 </div>
               </div>
               <div className="bg-gray-100 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button type="submit" className="btn btn-primary" onClick={submitEstimate}>
+                <button type="submit" className="btn btn-primary">
                   Solicitar Orçamento
                 </button>
               </div>

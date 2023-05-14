@@ -36,7 +36,7 @@ export type SelectedProduct = {
 
 export type SelectedVariations = {
   variationId: number;
-  optionId: number;
+  variationOptionId: number;
 };
 
 export type EstimateData = {

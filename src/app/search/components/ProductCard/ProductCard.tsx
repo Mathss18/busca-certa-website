@@ -16,14 +16,16 @@ function ProductCard({ product, index }: { product: SearchedProduct; index: numb
       transition={{ duration: 0.5, delay: 0.1 * index }}
       whileHover={{ scale: 1.05 }}
     >
-      <div className="relative h-60 overflow-hidden rounded-t-xl cursor-pointer">
+      <div
+        className="relative h-60 overflow-hidden rounded-t-xl cursor-pointer"
+        onClick={() => {
+          router.push(`/products/${product.id}`);
+        }}
+      >
         <motion.img
           className="absolute top-0 left-0 w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-110"
           src={product.image}
           alt={product.name}
-          onClick={() => {
-            router.push(`/products/${product.id}`);
-          }}
         />
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-transparent group-hover:from-transparent group-hover:to-black" />
         <motion.p className="absolute bottom-0 left-0 text-black p-2 mb-1 font-semibold text-lg transition-all duration-300 bg-gray-200 bg-opacity-75">

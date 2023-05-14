@@ -40,5 +40,5 @@ export type SearchedProduct = {
 
 export type SelectedVariationsType = {
   variationId: number;
-  optionId: number;
+  variationOptionId: number;
 };
