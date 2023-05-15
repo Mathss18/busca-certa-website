@@ -4,22 +4,13 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import EstimateModal from "@/components/estimate-modal/EstimateModal";
-import { SelectedProduct, SelectedVariations } from "./types";
+import {
+  EstimateModalContextType,
+  SelectedProduct,
+  SelectedVariations,
+} from "./types";
 import estimateService from "../../services/estimate/estimate.service";
-
-type EstimateModalContextType = {
-  isModalOpen: boolean;
-  setIsModalOpen: (value: boolean) => void;
-  selectedProduct: SelectedProduct | null;
-  setSelectedProduct: (value: SelectedProduct) => void;
-  selectedVariations: SelectedVariations[];
-  setSelectedVariations: (value: SelectedVariations[]) => void;
-  toggleSelectedVariation: (variationId: number, variationOptionId: number) => void;
-  submitEstimate: () => void;
-  form: any;
-  count: number;
-  setCount: (e: number) => void;
-};
+import Swal from "sweetalert2";
 
 const EstimateModalContext = createContext({
   isModalOpen: false,
@@ -33,34 +24,51 @@ const EstimateModalContext = createContext({
   form: {},
   count: 1,
   setCount: () => {},
+  minimumToEstimate: 1,
+  isBeingSubmited: false,
 } as EstimateModalContextType);
 
-function EstimateModalContextProvider({ children }: { children: React.ReactNode }) {
-  const [selectedVariations, setSelectedVariations] = useState<SelectedVariations[]>([]);
+function EstimateModalContextProvider({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [selectedVariations, setSelectedVariations] = useState<
+    SelectedVariations[]
+  >([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<SelectedProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] =
+    useState<SelectedProduct | null>(null);
   const [count, setCount] = useState(1);
   const form = useForm();
-  const { mutate: createEstimate } = useMutation(estimateService.create, {
-    onSuccess: () => {
-      alert("Sucesso!");
-    },
-  });
+  const { mutate: createEstimate, isLoading: isBeingSubmited } = useMutation(
+    estimateService.create,
+    {
+      onSuccess: () => {
+        setIsModalOpen(false);
+        Swal.fire({
+          title: "Orçamento Enviado com Sucesso",
+          icon: "success",
+        });
+      },
+    }
+  );
 
   function submitEstimate() {
     if (Object.keys(form.formState.errors).length > 0) return;
-    const { name, email, phone, companyName, companySegment, file, message } = form.getValues();
+    const { name, email, phone, companyName, companySegment, file, message } =
+      form.getValues();
     console.log(selectedVariations);
     createEstimate({
       clientName: name,
       clientEmail: email,
-      clientPhone: phone,
+      clientPhone: phone.replace(/\D/g, ""),
       clientCompanyName: companyName,
       clientSegment: companySegment,
       clientFile: file.length > 0 ? file : null,
       clientMessage: message,
       productId: selectedProduct?.id!,
-      quantity: count,
+      quantity: Number(count),
       estimateProductVariations: selectedVariations,
     });
   }
@@ -76,7 +84,7 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
 
   useEffect(() => {
     setSelectedVariations([]);
-    setCount(1);
+    setCount(selectedProduct?.minimumToEstimate || 1);
     form.reset();
   }, [selectedProduct]);
 
@@ -87,20 +95,26 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
     }
     const estimateFromLocalStorage = localStorage.getItem("estimateData");
     if (!estimateFromLocalStorage) return;
-    const { name, email, phone, companyName, companySegment, message } = JSON.parse(estimateFromLocalStorage);
+    const { name, email, phone, companyName, companySegment, message } =
+      JSON.parse(estimateFromLocalStorage);
     form.setValue("name", name);
     form.setValue("email", email);
     form.setValue("phone", phone);
     form.setValue("companyName", companyName);
     form.setValue("companySegment", companySegment);
-    form.setValue("message", message);
+    // form.setValue("message", message);
   }, [isModalOpen]);
 
-  function toggleSelectedVariation(variationId: number, variationOptionId: number) {
+  function toggleSelectedVariation(
+    variationId: number,
+    variationOptionId: number
+  ) {
     setSelectedVariations((prevVariations: SelectedVariations[]) => {
       const exists = prevVariations.find((v) => v.variationId === variationId);
       if (exists) {
-        const clean = prevVariations.filter((v) => !(v.variationId === exists.variationId));
+        const clean = prevVariations.filter(
+          (v) => !(v.variationId === exists.variationId)
+        );
 
         if (variationOptionId !== exists.variationOptionId) {
           return [
@@ -138,6 +152,8 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
         form,
         count,
         setCount,
+        minimumToEstimate: selectedProduct?.minimumToEstimate || 1,
+        isBeingSubmited,
       }}
     >
       <EstimateModal />

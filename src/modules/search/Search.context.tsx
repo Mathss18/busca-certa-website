@@ -8,20 +8,8 @@ import { AxiosResponse } from "axios";
 import { RootState } from "@/store/store";
 import { setSearchTerm } from "@/slices/searchSlice";
 import productService from "@/services/product/product.service";
-import { BaseApiResponse } from "@/interfaces/BaseApiResponse.interface";
 import productCategoryService from "@/services/product-category/product-category.service";
-import { RelevantCategory, SearchedProduct } from "./types";
-
-type SearchContextType = {
-  searchTerm: string;
-  search: (term: string) => void;
-  paginatedProducts: InfiniteData<AxiosResponse<BaseApiResponse<{ count: number; products: SearchedProduct[] }>>> | undefined;
-  fetchNextPage: () => void;
-  productsCount: number;
-  relevantCategories: RelevantCategory[];
-  isLoading: boolean;
-  highlightedProduct: any;
-};
+import { SearchContextType } from "./types";
 
 const SearchContext = createContext({
   searchTerm: "",

@@ -1,3 +1,18 @@
+import { AxiosResponse } from "axios";
+import { InfiniteData } from "react-query";
+import { BaseApiResponse } from "../../interfaces/BaseApiResponse.interface";
+
+export type SearchContextType = {
+  searchTerm: string;
+  search: (term: string) => void;
+  paginatedProducts: InfiniteData<AxiosResponse<BaseApiResponse<{ count: number; products: SearchedProduct[] }>>> | undefined;
+  fetchNextPage: () => void;
+  productsCount: number;
+  relevantCategories: RelevantCategory[];
+  isLoading: boolean;
+  highlightedProduct: any;
+};
+
 export type RelevantCategory = {
   id: number;
   name: string;
@@ -31,6 +46,7 @@ export type SearchedProduct = {
   subtitle: string;
   image: string;
   brand: string;
+  minimumToEstimate: number;
   supplier: {
     companyName: string;
     logo: string;

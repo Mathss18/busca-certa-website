@@ -6,7 +6,7 @@ function Footer() {
       <div className="container grid grid-cols-3">
         <div className="col-span-1 space-y-8">
           <Image
-            src="/assets/images/logo.svg"
+            src="/assets/images/logo-linha.svg"
             alt="logo"
             className="w-30"
             width={168}

@@ -20,7 +20,7 @@ function SearchNavbar() {
       <div className="navbar-start">
         <Link href="/">
           <Image
-            src="/assets/images/logos/logo.png"
+            src="/assets/images/logos/logo-linha.svg"
             alt="logo"
             width={168}
             height={35}

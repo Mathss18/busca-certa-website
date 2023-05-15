@@ -1,3 +1,22 @@
+export type EstimateModalContextType = {
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
+  selectedProduct: SelectedProduct | null;
+  setSelectedProduct: (value: SelectedProduct) => void;
+  selectedVariations: SelectedVariations[];
+  setSelectedVariations: (value: SelectedVariations[]) => void;
+  toggleSelectedVariation: (
+    variationId: number,
+    variationOptionId: number
+  ) => void;
+  submitEstimate: () => void;
+  form: any;
+  count: number;
+  minimumToEstimate: number;
+  setCount: (e: number) => void;
+  isBeingSubmited: boolean;
+};
+
 type Supplier = {
   companyName: string;
   logo: string;
@@ -29,6 +48,7 @@ export type SelectedProduct = {
   name: string;
   subtitle: string;
   image: string;
+  minimumToEstimate: number;
   brand: string;
   supplier: Supplier;
   productsVariations: ProductsVariation[];
