@@ -10,7 +10,7 @@ services:
       - "3001:3001"
     networks:
       - backend
-    container_name: facilite-frontend
+    container_name: busca_certa-frontend
     volumes:
       - .:/node_app/app
     command: /bin/sh -c "chmod +x entrypoint.sh && /node_app/app/entrypoint.sh"
@@ -19,5 +19,5 @@ services:
 
 networks:
   backend:
-    name: facilite-backend_network
+    name: busca_certa-backend_network
     external: true

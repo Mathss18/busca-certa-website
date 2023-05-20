@@ -1,8 +1,9 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import * as Icons from "react-icons/fa";
+import Swal from "sweetalert2";
 import productService from "@/services/product/product.service";
 import StarRating from "@/components/star-rating/StarRating";
 import { useEstimateModalContext } from "@/modules/estimate-modal/EstimateModal.context";
@@ -28,9 +29,21 @@ export default function ProductPage() {
   const { id } = useParams();
   const { data, error, isLoading } = useQuery(["product", id], () => productService.getOne(id));
   const { setIsModalOpen, setSelectedProduct } = useEstimateModalContext();
+  const router = useRouter();
 
-  if (error) return <div>Error loading product</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div>Carregando...</div>;
+
+  if (error) {
+    router.push("/");
+    Swal.fire({
+      icon: "error",
+      title: "Opss...",
+      html: "Não foi possível encontrar este produto",
+      timer: 3000,
+      timerProgressBar: true,
+    }).then(() => {});
+    return <div>Erro ao carregar o produto</div>;
+  }
 
   const product = data?.data?.data;
 
@@ -86,6 +99,7 @@ export default function ProductPage() {
         </div>
         <div className="w-full md:w-1/2">
           <h1 className="text-3xl font-extrabold mb-2">{product.name}</h1>
+          <h1 className="text-2xl font-normal mb-2">{product.subtitle}</h1>
           <div className="flex justify-start items-center gap-1">
             <StarRating rating={product.rating} />
           </div>

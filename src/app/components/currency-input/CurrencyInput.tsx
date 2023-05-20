@@ -7,31 +7,24 @@ interface CurrencyInputProps {
   value: number;
   onValueChange: (value: number, name: string) => void;
   allowNegativeValue?: boolean;
+  [x: string]: any;
 }
 
-const CurrencyInput: React.FC<CurrencyInputProps> = ({
-  id,
-  label,
-  value,
-  onValueChange,
-  allowNegativeValue = false,
-}) => {
+const CurrencyInput: React.FC<CurrencyInputProps> = ({ id, label, value, onValueChange, allowNegativeValue = false, ...props }) => {
   return (
     <>
       <label htmlFor={id} className="text-sm text-gray-600">
         {label}
       </label>
       <CurrencyInputField
+        decimalScale={2}
         id={id}
         name={id}
+        {...props}
         allowNegativeValue={allowNegativeValue}
-        className="input input-bordered w-full max-w-xs"
         value={value}
-        decimalsLimit={2}
         prefix="R$ "
-        onValueChange={(val, text) =>
-          onValueChange(parseFloat(val || "0"), text as string)
-        }
+        onValueChange={(val, text) => onValueChange(val as any, text as string)}
       />
     </>
   );

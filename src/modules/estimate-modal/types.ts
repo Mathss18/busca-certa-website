@@ -5,10 +5,7 @@ export type EstimateModalContextType = {
   setSelectedProduct: (value: SelectedProduct) => void;
   selectedVariations: SelectedVariations[];
   setSelectedVariations: (value: SelectedVariations[]) => void;
-  toggleSelectedVariation: (
-    variationId: number,
-    variationOptionId: number
-  ) => void;
+  toggleSelectedVariation: (variationId: number, variationOptionId: number) => void;
   submitEstimate: () => void;
   form: any;
   count: number;
