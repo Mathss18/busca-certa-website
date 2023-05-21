@@ -54,6 +54,7 @@ function EstimateModal() {
 
             <form
               onSubmit={form.handleSubmit(submitEstimate)}
+              encType="multipart/form-data"
               className="sm:max-w-7xl sm:w-full inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle"
             >
               <ModalHeader />

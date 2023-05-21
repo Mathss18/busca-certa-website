@@ -24,6 +24,8 @@ const EstimateModalContext = createContext({
   isBeingSubmited: false,
 } as EstimateModalContextType);
 
+const ALLOWED_FILE_EXTENSIONS = ["application/pdf", "image/png", "image/jpeg", "text/csv"];
+
 function EstimateModalContextProvider({ children }: { children: React.ReactNode }) {
   const [selectedVariations, setSelectedVariations] = useState<SelectedVariations[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -53,18 +55,27 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
   function submitEstimate() {
     if (Object.keys(form.formState.errors).length > 0) return;
     const { name, email, phone, companyName, companySegment, file, message } = form.getValues();
-    createEstimate({
-      clientName: name,
-      clientEmail: email,
-      clientPhone: phone.replace(/\D/g, ""),
-      clientCompanyName: companyName,
-      clientSegment: companySegment,
-      clientFile: file.length > 0 ? file : null,
-      clientMessage: message,
-      productId: selectedProduct?.id!,
-      quantity: Number(count),
-      estimateProductVariations: selectedVariations,
-    });
+    if (file[0] && !ALLOWED_FILE_EXTENSIONS.includes(file[0].type)) {
+      Swal.fire({
+        title: "Erro ao solicitar orçamento",
+        text: "Tipo de arquivo não permitido, tipos permitidos: PDF, PNG, JPEG, CSV",
+        backdrop: true,
+        icon: "error",
+      });
+      return;
+    }
+    const formData: any = new FormData();
+    formData.append("clientName", name);
+    formData.append("clientEmail", email);
+    formData.append("clientPhone", phone.replace(/\D/g, ""));
+    formData.append("clientCompanyName", companyName);
+    formData.append("clientSegment", companySegment);
+    formData.append("clientFile", file[0]);
+    formData.append("clientMessage", message);
+    formData.append("productId", selectedProduct?.id!);
+    formData.append("quantity", count.toString());
+    formData.append("estimateProductVariations", JSON.stringify(selectedVariations));
+    createEstimate(formData);
   }
 
   useEffect(() => {

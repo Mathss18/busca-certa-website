@@ -7,24 +7,17 @@ import RatingFilter from "./components/RatingFilter";
 import CategoriesFilter from "./components/CategoriesFilter";
 
 export default function Filters() {
-  const { searchTerm, productsCount, relevantCategories, search } =
-    useSearchContext();
+  const { searchTerm, productsCount, relevantCategories, search } = useSearchContext();
 
   return (
     <div className="flex flex-col w-1/6 min-w-[220px] p-6 bg-white shadow-lg space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-800">
-          {capitalizeFirstLetter(searchTerm)}
-        </h1>
+        <h1 className="text-3xl font-bold text-gray-800">{capitalizeFirstLetter(searchTerm)}</h1>
         <h2 className="text-lg font-semibold text-gray-600">
           {productsCount} {productsCount === 1 ? "resultado" : "resultados"}
         </h2>
       </div>
-      <CategoriesFilter
-        categories={relevantCategories}
-        search={search}
-        className="py-4 border-b-2 border-gray-200"
-      />
+      <CategoriesFilter categories={relevantCategories} search={search} className="py-4 border-b-2 border-gray-200" />
       <OrderByFilter className="py-4 border-b-2 border-gray-200" />
       <RatingFilter className="py-4 border-b-2 border-gray-200" />
       <div>

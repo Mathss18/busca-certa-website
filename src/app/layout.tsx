@@ -3,14 +3,12 @@ import Copyright from "../components/copyright/Copyright";
 import "../global.css";
 import GlobalProviders from "../GlobalProviders";
 
-export default function HomeLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
     <html>
-      <head></head>
+      <head>
+        <title>Busca Certa</title>
+      </head>
       <body>
         <GlobalProviders>{children}</GlobalProviders>
         {/* <Footer /> */}

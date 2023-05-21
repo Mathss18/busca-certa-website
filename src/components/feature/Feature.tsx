@@ -25,15 +25,15 @@ function Feature() {
   const features = [
     {
       imageUrl: "assets/images/icons/delivery-van.svg",
-      alt: "Frete Grátis",
-      title: "Frete Grátis",
-      description: "em todo território nacional",
+      alt: "Alcance Amplo",
+      title: "Alcance Amplo",
+      description: "cobertura em todo território nacional",
     },
     {
       imageUrl: "assets/images/icons/money-back.svg",
       alt: "Obtenha Descontos",
       title: "Obtenha Descontos",
-      description: "até 50% de desconto",
+      description: "com orçamentos personalizados",
     },
     {
       imageUrl: "assets/images/icons/service-hours.svg",
@@ -44,7 +44,7 @@ function Feature() {
   ];
 
   return (
-    <div className="mx-auto px-4 py-16">
+    <div className="mx-auto px-4 py-16 w-5/6">
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto justify-center">
         {features.map((feature) => (
           <FeatureCard key={feature.title} {...feature} />
