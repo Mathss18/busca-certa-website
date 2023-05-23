@@ -22,10 +22,7 @@ function SearchContent() {
         placeholder="Pesquise por produtos, marcas, fabricantes..."
       />
 
-      <button
-        className="btn bg-slate-900 rounded-l-none h-12 ml-px"
-        onClick={() => search(term)}
-      >
+      <button className="btn bg-slate-900 rounded-l-none h-12 ml-px" onClick={() => search(term)}>
         Pesquisar
       </button>
     </>

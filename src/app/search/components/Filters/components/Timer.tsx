@@ -56,10 +56,8 @@ export default function Timer() {
         <span className="text-red-600 text-sm">Tempo Esgotado!</span>
       ) : (
         <span className="text-red-600 text-sm">
-          Oportunidade termina em: {Math.floor(countdown / 3600)}:
-          {String(Math.floor((countdown % 3600) / 60)).padStart(2, "0")}:
-          {String(countdown % 60).padStart(2, "0")}{" "}
-          {getCountdownUnit(countdown)}
+          Oportunidade termina em: {Math.floor(countdown / 3600)}:{String(Math.floor((countdown % 3600) / 60)).padStart(2, "0")}:
+          {String(countdown % 60).padStart(2, "0")} {getCountdownUnit(countdown)}
         </span>
       )}
     </div>

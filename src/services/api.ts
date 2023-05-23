@@ -16,7 +16,6 @@ api.interceptors.response.use(
     if (status === 401) {
       window.location.href = "/login";
       localStorage.removeItem("token");
-      console.log("Interceptado 401: ", localStorage.getItem("token"));
     }
 
     return Promise.reject(response);

@@ -27,7 +27,7 @@ function HomeContextProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    console.log(location);
+    // console.log(location);
   }, [location]);
   return (
     <HomeContext.Provider

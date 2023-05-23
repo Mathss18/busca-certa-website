@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import * as Icons from "react-icons/fa";
 import Swal from "sweetalert2";
 import productService from "@/services/product/product.service";
@@ -25,8 +25,7 @@ type ProductVariationOptions = {
   };
 };
 
-export default function ProductPage() {
-  const { id } = useParams();
+export default function ProductPage({ params: { id } }: any) {
   const { data, error, isLoading } = useQuery(["product", id], () => productService.getOne(id));
   const { setIsModalOpen, setSelectedProduct } = useEstimateModalContext();
   const router = useRouter();
@@ -85,6 +84,7 @@ export default function ProductPage() {
               <h2 className="text-xl font-bold text-gray-900 mt-5">Mais características</h2>
               <div className="grid md:grid-cols-3 sm:grid-cols-2 gap-4 text-base text-gray-500 mt-2 text-center">
                 {product.productFeatures.map((feature: any) => {
+                  // @ts-ignore
                   const Icon = feature.features.icon in Icons ? Icons[feature.features.icon] : Icons.FaQuestion; // Default icon
                   return (
                     <div className="flex flex-col items-center" key={feature.features.id}>

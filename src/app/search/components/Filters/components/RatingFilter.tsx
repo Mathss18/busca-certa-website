@@ -12,10 +12,7 @@ export default function RatingFilter({ ...rest }: { [x: string]: any }) {
               // Implement your filter logic here
               // onChange={(e) => handleRatingFilterChange(rating, e.target.checked)}
             />
-            <label
-              htmlFor={`rating-${rating}`}
-              className="text-base text-gray-700"
-            >
+            <label htmlFor={`rating-${rating}`} className="text-base text-gray-700">
               {`${Array(rating).fill("⭐️").join("")} (${rating})`}
             </label>
           </div>

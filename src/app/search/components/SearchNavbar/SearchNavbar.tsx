@@ -19,12 +19,7 @@ function SearchNavbar() {
     <div className="navbar bg-base-100">
       <div className="navbar-start">
         <Link href="/">
-          <Image
-            src="/assets/images/logos/logo-linha.svg"
-            alt="logo"
-            width={168}
-            height={35}
-          />
+          <Image src="/assets/images/logos/logo-linha.svg" alt="logo" width={168} height={35} />
         </Link>
       </div>
       <div className="navbar-center w-96">
@@ -41,10 +36,7 @@ function SearchNavbar() {
               }
             }}
           />
-          <button
-            className="btn btn-ghost btn-circle"
-            onClick={() => search(term)}
-          >
+          <button className="btn btn-ghost btn-circle" onClick={() => search(term)}>
             <div className="indicator">
               <FaSearch />
             </div>

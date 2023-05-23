@@ -10,7 +10,7 @@ import { BaseApiResponse } from "@/interfaces/BaseApiResponse.interface";
 import SearchSkeleton from "./components/SearchSkeleton/SearchSkeleton";
 import HighlightedProduct from "./components/Filters/components/HighlightedProduct";
 import { SearchedProduct } from "@/modules/search/types";
-import { SearchNotFound } from "./components/SearchNotFound/SearchNotFound";
+import SearchNotFound from "./components/SearchNotFound/SearchNotFound";
 
 export default function Search() {
   const { paginatedProducts, fetchNextPage, isLoading, highlightedProduct, productsCount } = useSearchContext();
