@@ -5,7 +5,7 @@ import GlobalProviders from "../GlobalProviders";
 
 export default function HomeLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html>
+    <html lang="pt-br">
       <head>
         <title>Busca Certa</title>
       </head>
