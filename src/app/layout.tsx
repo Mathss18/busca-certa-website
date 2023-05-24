@@ -1,5 +1,5 @@
 import Copyright from "../components/copyright/Copyright";
-// import Footer from "../components/footer/Footer";
+import Footer from "../components/footer/Footer";
 import "../global.css";
 import GlobalProviders from "../GlobalProviders";
 
@@ -11,7 +11,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <GlobalProviders>{children}</GlobalProviders>
-        {/* <Footer /> */}
+        <Footer />
         <Copyright />
       </body>
     </html>
