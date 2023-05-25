@@ -11,7 +11,7 @@ function Footer() {
         </div> */}
         <div>
           <span className="footer-title">Empresa</span>
-          <Link href="/about-use" className="link link-hover">
+          <Link href="/about-us" className="link link-hover">
             Sobre Nós
           </Link>
           <Link href="/contact-us" className="link link-hover">
