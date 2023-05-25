@@ -1,21 +1,21 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useEffect } from "react";
 import CurrencyInput from "../../components/currency-input/CurrencyInput";
 import { useEstimateReviewContext } from "@/modules/estimate-review/EstimateReview.context";
 import { toLocalCurrency } from "../../../helpers/string.helper";
 
-export default function Page() {
+export const dynamic = "force-dynamic";
+export default function Page({ searchParams }: any) {
   const { price, setPrice, setNonce, estimate, isLoading, error, handleAccept, handleDecline, handleSupport } = useEstimateReviewContext();
-  const params = useSearchParams();
-  console.log(params);
+  const nonceFromUrl = searchParams?.nonce;
   const router = useRouter();
+
   useEffect(() => {
-    if (params?.get("nonce")) return;
-    setNonce(params?.get("nonce"));
-  }, [params]);
+    setNonce(nonceFromUrl);
+  }, [nonceFromUrl]);
 
   if (isLoading || !estimate) return <h1 className="text-center text-3xl my-10">Carregando...</h1>;
   if (error) {
