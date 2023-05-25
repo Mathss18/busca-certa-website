@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Provider } from "react-redux";
 import EstimateModalContextProvider from "./modules/estimate-modal/EstimateModal.context";
+import GeolocatorContextProvider from "./modules/geolocator/Geolocator.context";
 import SearchContextProvider from "./modules/search/Search.context";
 import { store } from "./store/store";
 
@@ -20,10 +21,12 @@ function GlobalProviders({ children }: { children: React.ReactNode }) {
   return (
     <Provider store={store}>
       <QueryClientProvider client={queryClient}>
-        <SearchContextProvider>
-          <EstimateModalContextProvider>{children}</EstimateModalContextProvider>
-        </SearchContextProvider>
-        <ReactQueryDevtools initialIsOpen={false} position={"bottom-right"} />
+        <GeolocatorContextProvider>
+          <SearchContextProvider>
+            <EstimateModalContextProvider>{children}</EstimateModalContextProvider>
+          </SearchContextProvider>
+          <ReactQueryDevtools initialIsOpen={false} position={"bottom-right"} />
+        </GeolocatorContextProvider>
       </QueryClientProvider>
     </Provider>
   );

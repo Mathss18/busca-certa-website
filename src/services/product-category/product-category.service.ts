@@ -1,11 +1,14 @@
 import api from "@/services/api";
+import { GeolocationServiceInterfaceOutput } from "../geolocation/geolocation-service.interface";
 
 type FindRelevantsParams = {
   quantity: number;
+  location?: GeolocationServiceInterfaceOutput | null;
 };
 type FindRelevantsByTermParams = {
   quantity: number;
   term: string;
+  location?: GeolocationServiceInterfaceOutput | null;
 };
 
 const productCategoryService = {

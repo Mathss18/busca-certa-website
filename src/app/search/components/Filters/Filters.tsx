@@ -5,6 +5,7 @@ import { capitalizeFirstLetter } from "@/helpers/string.helper";
 import OrderByFilter from "./components/OrderByFilter";
 import RatingFilter from "./components/RatingFilter";
 import CategoriesFilter from "./components/CategoriesFilter";
+import LocationFilter from "./components/LocationFilter";
 
 export default function Filters() {
   const { searchTerm, productsCount, relevantCategories, search } = useSearchContext();
@@ -18,6 +19,7 @@ export default function Filters() {
         </h2>
       </div>
       <CategoriesFilter categories={relevantCategories} search={search} className="py-4 border-b-2 border-gray-200" />
+      <LocationFilter className="py-4 border-b-2 border-gray-200" />
       <OrderByFilter className="py-4 border-b-2 border-gray-200" />
       <RatingFilter className="py-4 border-b-2 border-gray-200" />
       <div>

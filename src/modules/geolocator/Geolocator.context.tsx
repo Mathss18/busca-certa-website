@@ -1,30 +1,67 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useLayoutEffect, useState } from "react";
+import { GeolocationServiceInterfaceOutput } from "../../services/geolocation/geolocation-service.interface";
+import GoogleMaps from "../../services/geolocation/googlemaps.service";
 
 type GeolocatorContextType = {
-  location: { latitude: number; longitude: number };
+  latLong: { latitude: number; longitude: number };
+  location: GeolocationServiceInterfaceOutput | null;
+  setLocation: (location: GeolocationServiceInterfaceOutput | null) => void;
+  clearLocation: () => void;
 };
 
 const GeolocatorContext = createContext({} as GeolocatorContextType);
 
 function GeolocatorContextProvider({ children }: { children: React.ReactNode }) {
-  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
+  const [latLong, setLatLong] = useState({ latitude: 0, longitude: 0 });
+  const [location, setLocation] = useState<GeolocationServiceInterfaceOutput | null>(null);
 
   useEffect(() => {
     if ("geolocation" in navigator) {
-      // Retrieve latitude & longitude coordinates from `navigator.geolocation` Web API
       navigator.geolocation.getCurrentPosition(({ coords }) => {
         const { latitude, longitude } = coords;
-        setLocation({ latitude, longitude });
+        setLatLong({ latitude, longitude });
       });
     }
   }, []);
 
+  async function getCurrentLocation() {
+    if (sessionStorage.getItem("location")) return setLocation(JSON.parse(sessionStorage.getItem("location")!));
+    const geoLocationService = new GoogleMaps(latLong.latitude, latLong.longitude);
+    const locationInfo = await geoLocationService.getCurrentLocation();
+    sessionStorage.setItem("location", JSON.stringify(locationInfo));
+    setLocation(locationInfo);
+  }
+
+  useEffect(() => {
+    if (latLong.latitude === 0 || latLong.longitude === 0) return;
+    if (sessionStorage.getItem("location")) return;
+    getCurrentLocation();
+  }, [latLong]);
+
+  useLayoutEffect(() => {
+    if (!sessionStorage.getItem("location")) return;
+    setLocation(JSON.parse(sessionStorage.getItem("location")!));
+  }, []);
+
+  useEffect(() => {
+    if (!location) return;
+    sessionStorage.setItem("location", JSON.stringify(location));
+  }, [location]);
+
+  function clearLocation() {
+    sessionStorage.removeItem("location");
+    setLocation(null);
+  }
+
   return (
     <GeolocatorContext.Provider
       value={{
+        latLong,
         location,
+        setLocation,
+        clearLocation,
       }}
     >
       {children}
