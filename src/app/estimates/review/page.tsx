@@ -12,7 +12,7 @@ export default function Page({ searchParams }: any) {
   const nonce = searchParams?.nonce;
   const router = useRouter();
   useEffect(() => {
-    if (!nonce) router.push("/");
+    // if (!nonce) router.push("/");
     setNonce(nonce);
   }, [nonce]);
 
