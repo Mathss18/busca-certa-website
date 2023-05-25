@@ -37,7 +37,7 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
       setIsModalOpen(false);
       Swal.fire({
         title: "Orçamento Solicitado com Sucesso",
-        text: "Estamos entrando em contato com você...",
+        text: "Estamos entrando em contato com você, verifique seu e-mail.",
         backdrop: true,
         icon: "success",
       });
@@ -70,11 +70,12 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
     formData.append("clientPhone", phone.replace(/\D/g, ""));
     formData.append("clientCompanyName", companyName);
     formData.append("clientSegment", companySegment);
-    formData.append("clientFile", file[0]);
     formData.append("clientMessage", message);
     formData.append("productId", selectedProduct?.id!);
     formData.append("quantity", count.toString());
     formData.append("estimateProductVariations", JSON.stringify(selectedVariations));
+
+    if (file[0]) formData.append("clientFile", file[0]);
     createEstimate(formData);
   }
 
@@ -101,6 +102,7 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
     const estimateFromLocalStorage = localStorage.getItem("estimateData");
     if (!estimateFromLocalStorage) return;
     const { name, email, phone, companyName, companySegment } = JSON.parse(estimateFromLocalStorage);
+    form.resetField("file");
     form.setValue("name", name);
     form.setValue("email", email);
     form.setValue("phone", phone);
