@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaSearch, FaBell } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchContext } from "@/modules/search/Search.context";
@@ -44,12 +44,12 @@ function SearchNavbar() {
         </div>
       </div>
       <div className="navbar-end">
-        <button className="btn btn-ghost btn-circle">
+        {/* <button className="btn btn-ghost btn-circle">
           <div className="indicator">
             <FaBell />
             <span className="badge badge-xs badge-primary indicator-item"></span>
           </div>
-        </button>
+        </button> */}
       </div>
     </div>
   );

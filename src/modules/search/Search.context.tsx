@@ -3,7 +3,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useInfiniteQuery, InfiniteData, useQuery, useQueryClient } from "react-query";
+import { useInfiniteQuery, InfiniteData, useQuery } from "react-query";
 import { AxiosResponse } from "axios";
 import { RootState } from "@/store/store";
 import { setSearchTerm } from "@/slices/searchSlice";
@@ -31,7 +31,6 @@ function SearchContextProvider({ children }: { children: React.ReactNode }) {
   const params = useSearchParams();
   const router = useRouter();
   const dispatch = useDispatch();
-  const queryClient = useQueryClient();
 
   const { data: relevantCategories, refetch: refetchRelevantCategories } = useQuery(
     ["search", "relevants-categories-by-term", searchTerm, location],
@@ -60,7 +59,12 @@ function SearchContextProvider({ children }: { children: React.ReactNode }) {
     }
   );
 
-  const { data, fetchNextPage, isLoading } = useInfiniteQuery(
+  const {
+    data,
+    fetchNextPage,
+    isLoading,
+    refetch: refetchProducts,
+  } = useInfiniteQuery(
     ["search", "search-by-term", searchTerm, location],
     ({ pageParam = 1 }) => {
       return productService.searchByTerm({
@@ -99,8 +103,9 @@ function SearchContextProvider({ children }: { children: React.ReactNode }) {
     if (term === "") return;
 
     if (term === searchTerm) {
-      queryClient.invalidateQueries({ queryKey: ["search"] });
-      return;
+      refetchRelevantCategories();
+      refetchHighlightedProduct();
+      refetchProducts();
     }
     dispatch(setSearchTerm(term));
     router.push(`/search?term=${encodeURIComponent(term)}`);
