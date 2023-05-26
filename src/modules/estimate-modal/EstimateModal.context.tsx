@@ -55,7 +55,7 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
   function submitEstimate() {
     if (Object.keys(form.formState.errors).length > 0) return;
     const { name, email, phone, companyName, companySegment, file, message } = form.getValues();
-    if (file[0] && !ALLOWED_FILE_EXTENSIONS.includes(file[0].type)) {
+    if (file && file[0] && !ALLOWED_FILE_EXTENSIONS.includes(file[0].type)) {
       Swal.fire({
         title: "Erro ao solicitar orçamento",
         text: "Tipo de arquivo não permitido, tipos permitidos: PDF, PNG, JPEG, CSV",
@@ -75,7 +75,7 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
     formData.append("quantity", count.toString());
     formData.append("estimateProductVariations", JSON.stringify(selectedVariations));
 
-    if (file[0]) formData.append("clientFile", file[0]);
+    if (file && file[0]) formData.append("clientFile", file[0]);
     createEstimate(formData);
   }
 
