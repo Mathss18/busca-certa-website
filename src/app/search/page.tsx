@@ -5,6 +5,7 @@ import { AxiosResponse } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaChevronCircleDown } from "react-icons/fa";
 import { AnimatePresence, motion } from "framer-motion";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { useSearchContext } from "@/modules/search/Search.context";
 import Filters from "./components/Filters/Filters";
 import ProductCard from "./components/ProductCard/ProductCard";
@@ -24,6 +25,13 @@ export default function Search() {
   const router = useRouter();
   const isMobile = useIsMobile();
   const [filterOpen, setFilterOpen] = useState(false);
+  useEffect(() => {
+    // Get a target element that you want to persist scrolling for (such as your app root)
+    const targetElement = document.querySelector("#root");
+
+    if (filterOpen) disableBodyScroll(targetElement);
+    else enableBodyScroll(targetElement);
+  }, [filterOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

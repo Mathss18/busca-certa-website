@@ -9,7 +9,7 @@ export default function HomeLayout({ children }: { children: React.ReactNode }) 
       <head>
         <title>Busca Certa</title>
       </head>
-      <body>
+      <body id="root">
         <GlobalProviders>{children}</GlobalProviders>
         <Footer />
         <Copyright />
