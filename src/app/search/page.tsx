@@ -29,8 +29,8 @@ export default function Search() {
     // Get a target element that you want to persist scrolling for (such as your app root)
     const targetElement = document.querySelector("#root");
 
-    if (filterOpen) disableBodyScroll(targetElement);
-    else enableBodyScroll(targetElement);
+    if (filterOpen) disableBodyScroll(targetElement as any);
+    else enableBodyScroll(targetElement as any);
   }, [filterOpen]);
 
   useEffect(() => {
