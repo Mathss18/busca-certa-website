@@ -5,10 +5,12 @@ import { FaSearch } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useSearchContext } from "@/modules/search/Search.context";
+import useIsMobile from "@/hooks/useIsMobile.hook";
 
 function SearchNavbar() {
   const { searchTerm, search } = useSearchContext();
   const [term, setTerm] = useState(searchTerm);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!searchTerm) return;
@@ -16,40 +18,34 @@ function SearchNavbar() {
   }, [searchTerm]);
 
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
+    <div className="bg-base-100 flex items-center pt-2">
+      <div className={`flex justify-start min-w-[84px] pl-4 ${!isMobile && "w-[33%]"}`}>
         <Link href="/">
-          <Image src="/assets/images/logos/logo-linha.svg" alt="logo" width={168} height={35} />
+          {isMobile ? (
+            <Image src="/assets/images/logos/logo.svg" alt="logo" width={84} height={35} />
+          ) : (
+            <Image src="/assets/images/logos/logo-linha.svg" alt="logo" width={168} height={35} />
+          )}
         </Link>
       </div>
-      <div className="navbar-center w-96">
-        <div className="flex">
-          <input
-            value={term}
-            onChange={(e) => setTerm(e.target.value)}
-            type="text"
-            placeholder="Pesquise..."
-            className="input input-bordered w-96"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                search(term);
-              }
-            }}
-          />
-          <button className="btn btn-ghost btn-circle" onClick={() => search(term)}>
-            <div className="indicator">
-              <FaSearch />
-            </div>
-          </button>
-        </div>
-      </div>
-      <div className="navbar-end">
-        {/* <button className="btn btn-ghost btn-circle">
+      <div className="flex w-5/6 max-w-[600px]">
+        <input
+          value={term}
+          onChange={(e) => setTerm(e.target.value)}
+          type="text"
+          placeholder="Pesquise..."
+          className="input input-bordered w-full"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              search(term);
+            }
+          }}
+        />
+        <button className="btn btn-ghost btn-circle" onClick={() => search(term)}>
           <div className="indicator">
-            <FaBell />
-            <span className="badge badge-xs badge-primary indicator-item"></span>
+            <FaSearch />
           </div>
-        </button> */}
+        </button>
       </div>
     </div>
   );

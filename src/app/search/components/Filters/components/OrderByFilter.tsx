@@ -3,7 +3,7 @@ export default function OrderByFilter({ ...rest }: { [x: string]: any }) {
     <section className="w-full mb-8" {...rest}>
       <h2 className="text-lg font-semibold mb-4">Ordenar por</h2>
       <select
-        className="select select-bordered w-full max-w-xs"
+        className="select select-bordered w-full"
         // Implement your sorting logic here
         // onChange={(e) => handleSortChange(e.target.value)}
       >
