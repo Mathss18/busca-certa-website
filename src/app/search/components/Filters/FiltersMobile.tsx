@@ -18,7 +18,8 @@ function FiltersMobile() {
       animate={{ y: 0 }}
       exit={{ y: "-100vh" }}
       transition={{ duration: 0.3 }}
-      className="fixed z-40 w-screen overflow-auto top-0 h-screen"
+      className="fixed z-50 w-screen h-screen overflow-y-auto top-0 left-0 right-0 bottom-0 bg-white shadow-lg overflow-x-hidden"
+      style={{ touchAction: "none" }} // prevents scrolling behind the overlay
     >
       <div className="flex flex-col p-6 bg-white shadow-lg space-y-6">
         <div>

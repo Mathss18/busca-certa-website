@@ -58,7 +58,7 @@ export default function Search() {
   }
   return (
     <>
-      <div className="flex flex-row min-h-screen">
+      <div className="flex flex-row min-h-screen overflow-hidden">
         {!isMobile && <Filters />}
         <AnimatePresence>{isMobile && filterOpen && <FiltersMobile />}</AnimatePresence>
         <div className="bg-gray-100 flex flex-col items-center p-4 gap-4  w-screen">
