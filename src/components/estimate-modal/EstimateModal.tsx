@@ -117,111 +117,6 @@ function EstimateModal() {
     );
   }
 
-  function EstimateForm() {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Nome Completo *</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Nome Completo"
-            className={`input input-bordered w-full ${form?.formState?.errors?.name ? "border-red-500" : ""}`}
-            {...form.register("name", { required: true })}
-          />
-          {form?.formState?.errors?.name && <span className="text-red-500">Preencha esse campo</span>}
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Email *</span>
-          </label>
-          <input
-            type="email"
-            placeholder="Email"
-            className={`input input-bordered w-full ${form?.formState?.errors?.email ? "border-red-500" : ""}`}
-            {...form.register("email", {
-              required: true,
-              email: true,
-            })}
-          />
-          {form?.formState?.errors?.email && <span className="text-red-500">Preencha esse campo</span>}
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Celular *</span>
-          </label>
-          <Controller
-            name="phone"
-            control={form.control}
-            rules={{ required: true }}
-            render={({ field }) => (
-              <ReactInputMask {...field} mask="(99) 99999-9999">
-                {/* @ts-ignore */}
-                {(inputProps) => (
-                  <input
-                    {...inputProps}
-                    type="text"
-                    placeholder="Celular *"
-                    className={`input input-bordered w-full ${form?.formState?.errors?.phone ? "border-red-500" : ""}`}
-                  />
-                )}
-              </ReactInputMask>
-            )}
-          />
-          {form?.formState?.errors?.phone && <span className="text-red-500">Digite um número válido</span>}
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Nome da Empresa</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Nome da Empresa *"
-            className={`input input-bordered w-full ${form?.formState?.errors?.companyName ? "border-red-500" : ""}`}
-            {...form.register("companyName", { required: true })}
-          />
-          {form?.formState?.errors?.companyName && <span className="text-red-500">Preencha esse campo</span>}
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Segmento</span>
-          </label>
-          <input
-            type="text"
-            placeholder="Segmento da Empresa"
-            className={`input input-bordered w-full ${form?.formState?.errors?.companySegment ? "border-red-500" : ""}`}
-            {...form.register("companySegment")}
-          />
-          {form?.formState?.errors?.companySegment && <span className="text-red-500">Preencha esse campo</span>}
-        </div>
-        <div className="form-control w-full">
-          <label className="label">
-            <span className="label-text">Anexo</span>
-          </label>
-          <input
-            type="file"
-            placeholder="Anexo"
-            className={`file-input file-input-bordered w-full ${form?.formState?.errors?.file ? "border-red-500" : ""}`}
-            {...form.register("file")}
-          />
-          {form?.formState?.errors?.file && <span className="text-red-500">Preencha esse campo</span>}
-        </div>
-        <div className="form-control w-full sm:col-span-2">
-          <label className="label">
-            <span className="label-text">Menssagem</span>
-          </label>
-          <textarea
-            className="textarea textarea-bordered"
-            placeholder="Digite sua menssagem para o fornecedor"
-            {...form.register("message")}
-          ></textarea>
-          {form?.formState?.errors?.message && <span className="text-red-500">Preencha esse campo</span>}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       {isModalOpen && (
@@ -271,7 +166,106 @@ function EstimateModal() {
                     <h3 className="text-lg leading-6 font-medium text-gray-900 mb-4">
                       {`${selectedProduct?.name} - ${selectedProduct?.subtitle}`}
                     </h3>
-                    <EstimateForm />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">Nome Completo *</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Nome Completo"
+                          className={`input input-bordered w-full ${form?.formState?.errors?.name ? "border-red-500" : ""}`}
+                          {...form.register("name", { required: true })}
+                        />
+                        {form?.formState?.errors?.name && <span className="text-red-500">Preencha esse campo</span>}
+                      </div>
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">Email *</span>
+                        </label>
+                        <input
+                          type="email"
+                          placeholder="Email"
+                          className={`input input-bordered w-full ${form?.formState?.errors?.email ? "border-red-500" : ""}`}
+                          {...form.register("email", {
+                            required: true,
+                            email: true,
+                          })}
+                        />
+                        {form?.formState?.errors?.email && <span className="text-red-500">Preencha esse campo</span>}
+                      </div>
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">Celular *</span>
+                        </label>
+                        <Controller
+                          name="phone"
+                          control={form.control}
+                          rules={{ required: true }}
+                          render={({ field }) => (
+                            <ReactInputMask {...field} mask="(99) 99999-9999">
+                              {/* @ts-ignore */}
+                              {(inputProps) => (
+                                <input
+                                  {...inputProps}
+                                  type="text"
+                                  placeholder="Celular *"
+                                  className={`input input-bordered w-full ${form?.formState?.errors?.phone ? "border-red-500" : ""}`}
+                                />
+                              )}
+                            </ReactInputMask>
+                          )}
+                        />
+                        {form?.formState?.errors?.phone && <span className="text-red-500">Digite um número válido</span>}
+                      </div>
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">Nome da Empresa *</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Nome da Empresa *"
+                          className={`input input-bordered w-full ${form?.formState?.errors?.companyName ? "border-red-500" : ""}`}
+                          {...form.register("companyName", { required: true })}
+                        />
+                        {form?.formState?.errors?.companyName && <span className="text-red-500">Preencha esse campo</span>}
+                      </div>
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">Segmento</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Segmento da Empresa"
+                          className={`input input-bordered w-full ${form?.formState?.errors?.companySegment ? "border-red-500" : ""}`}
+                          {...form.register("companySegment")}
+                        />
+                        {form?.formState?.errors?.companySegment && <span className="text-red-500">Preencha esse campo</span>}
+                      </div>
+                      <div className="form-control w-full">
+                        <label className="label">
+                          <span className="label-text">Anexo</span>
+                        </label>
+                        <input
+                          type="file"
+                          placeholder="Anexo"
+                          className={`file-input file-input-bordered w-full ${form?.formState?.errors?.file ? "border-red-500" : ""}`}
+                          {...form.register("file")}
+                        />
+                        {form?.formState?.errors?.file && <span className="text-red-500">Preencha esse campo</span>}
+                      </div>
+                      <div className="form-control w-full sm:col-span-2">
+                        <label className="label">
+                          <span className="label-text">Menssagem</span>
+                        </label>
+                        <textarea
+                          className="textarea textarea-bordered"
+                          placeholder="Digite sua menssagem para o fornecedor"
+                          {...form.register("message")}
+                        ></textarea>
+                        {form?.formState?.errors?.message && <span className="text-red-500">Preencha esse campo</span>}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
