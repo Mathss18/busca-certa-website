@@ -65,12 +65,12 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
       return;
     }
     const formData: any = new FormData();
-    formData.append("clientName", name);
-    formData.append("clientEmail", email);
+    formData.append("clientName", name.trim());
+    formData.append("clientEmail", email.trim());
     formData.append("clientPhone", phone.replace(/\D/g, ""));
-    formData.append("clientCompanyName", companyName);
-    formData.append("clientSegment", companySegment);
-    formData.append("clientMessage", message);
+    formData.append("clientCompanyName", companyName.trim());
+    formData.append("clientSegment", companySegment.trim());
+    formData.append("clientMessage", message.trim());
     formData.append("productId", selectedProduct?.id!);
     formData.append("quantity", count.toString());
     formData.append("estimateProductVariations", JSON.stringify(selectedVariations));

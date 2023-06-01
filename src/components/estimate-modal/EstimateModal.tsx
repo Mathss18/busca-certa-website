@@ -175,7 +175,10 @@ function EstimateModal() {
                           type="text"
                           placeholder="Nome Completo"
                           className={`input input-bordered w-full ${form?.formState?.errors?.name ? "border-red-500" : ""}`}
-                          {...form.register("name", { required: true })}
+                          {...form.register("name", {
+                            required: true,
+                            setValueAs: (value: string) => value.trim(),
+                          })}
                         />
                         {form?.formState?.errors?.name && <span className="text-red-500">Preencha esse campo</span>}
                       </div>
@@ -184,15 +187,18 @@ function EstimateModal() {
                           <span className="label-text">Email *</span>
                         </label>
                         <input
-                          type="email"
+                          type="text"
                           placeholder="Email"
                           className={`input input-bordered w-full ${form?.formState?.errors?.email ? "border-red-500" : ""}`}
                           {...form.register("email", {
                             required: true,
-                            email: true,
+                            setValueAs: (value: string) => value.trim(),
+                            pattern: {
+                              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                            },
                           })}
                         />
-                        {form?.formState?.errors?.email && <span className="text-red-500">Preencha esse campo</span>}
+                        {form?.formState?.errors?.email && <span className="text-red-500">Digite um email válido</span>}
                       </div>
                       <div className="form-control w-full">
                         <label className="label">
@@ -226,7 +232,7 @@ function EstimateModal() {
                           type="text"
                           placeholder="Nome da Empresa *"
                           className={`input input-bordered w-full ${form?.formState?.errors?.companyName ? "border-red-500" : ""}`}
-                          {...form.register("companyName", { required: true })}
+                          {...form.register("companyName", { required: true, setValueAs: (value: string) => value.trim() })}
                         />
                         {form?.formState?.errors?.companyName && <span className="text-red-500">Preencha esse campo</span>}
                       </div>
@@ -238,7 +244,7 @@ function EstimateModal() {
                           type="text"
                           placeholder="Segmento da Empresa"
                           className={`input input-bordered w-full ${form?.formState?.errors?.companySegment ? "border-red-500" : ""}`}
-                          {...form.register("companySegment")}
+                          {...form.register("companySegment", { setValueAs: (value: string) => value.trim() })}
                         />
                         {form?.formState?.errors?.companySegment && <span className="text-red-500">Preencha esse campo</span>}
                       </div>
@@ -261,7 +267,7 @@ function EstimateModal() {
                         <textarea
                           className="textarea textarea-bordered"
                           placeholder="Digite sua menssagem para o fornecedor"
-                          {...form.register("message")}
+                          {...form.register("message", { setValueAs: (value: string) => value.trim() })}
                         ></textarea>
                         {form?.formState?.errors?.message && <span className="text-red-500">Preencha esse campo</span>}
                       </div>
