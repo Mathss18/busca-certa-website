@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation } from "react-query";
 import Swal from "sweetalert2";
+import { HttpStatusCode } from "axios";
 import EstimateModal from "@/components/estimate-modal/EstimateModal";
 import { EstimateModalContextType, SelectedProduct, SelectedVariations } from "./types";
 import estimateService from "../../services/estimate/estimate.service";
@@ -42,10 +43,14 @@ function EstimateModalContextProvider({ children }: { children: React.ReactNode 
         icon: "success",
       });
     },
-    onError: () => {
+    onError: (error: any) => {
+      const errorMessage =
+        error.response.status === HttpStatusCode.TooManyRequests
+          ? "Estamos processando seus outros pedidos, tente novamente em alguns segundos."
+          : "Tente novamente mais tarde";
       Swal.fire({
         title: "Erro ao solicitar orçamento",
-        text: "Tente novamente mais tarde",
+        text: errorMessage,
         backdrop: true,
         icon: "error",
       });
